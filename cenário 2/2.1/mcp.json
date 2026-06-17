@@ -1,0 +1,37 @@
+{
+  "mcpServers": {
+    "filesystem-rw": {
+      "command": "npx",
+      "args": [
+        "-y", "@modelcontextprotocol/server-filesystem",
+        "./src",
+        "./specs",
+        "./skills",
+        "./docs/adr",
+        "./prompts",
+        "./tests"
+      ],
+      "description": "Leitura e escrita para código-fonte, specs, skills, ADRs, prompts e testes. Não inclui docs de negócio nem corpus RAG — esses são read-only via filesystem-ro."
+    },
+    "filesystem-ro": {
+      "command": "npx",
+      "args": [
+        "-y", "@modelcontextprotocol/server-filesystem",
+        "--readonly",
+        "./docs/novatech",
+        "./data/retrieval-corpus"
+      ],
+      "description": "Leitura somente para documentação oficial NovaTech (Anexo A) e corpus de chunks RAG (Anexo B). Escrita bloqueada: esses arquivos são gerenciados pelo Compliance, não pelo agente de desenvolvimento."
+    },
+    "git": {
+      "command": "uvx",
+      "args": ["mcp-server-git", "--repository", "."],
+      "description": "Histórico de commits, diffs e branches do repositório local. Read-only por natureza — não executa push, fetch nem commit."
+    },
+    "memory": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"],
+      "description": "Grafo de conhecimento persistente entre sessões. Armazena linguagem ubíqua do domínio (ex: 'carga perigosa = classes 1-6 ANTT'), decisões arquiteturais e contexto do projeto."
+    }
+  }
+}
